@@ -21,7 +21,7 @@ def start(message):
 def bot_message(message):
     if message.chat.type == 'private':
         if message.text == 'Контакты':
-            bot.send_message(message.chat.id, 'Этот бот был создан для информационных целей\n\nСоздателем этого ботя является: @Sunnatilla_Ismoilov')
+            bot.send_message(message.chat.id, 'Этот бот был создан для теста\n\nСоздателем этого бота является: @Sunnatilla_Ismoilov')
         elif message.text == 'BTC/USDT':
             btc = cg.get_price(ids='bitcoin', vs_currencies='usd')
             markup = types.ReplyKeyboardMarkup(resize_keyboard = True)
