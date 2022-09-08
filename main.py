@@ -1,15 +1,10 @@
 import telebot
 from telebot import types
 from pycoingecko import CoinGeckoAPI
-
-token = '5446673681:AAHUWmXc-sCmch1eMGH7G7Me_Y7NO6HYgk4'
+token = 'YOUR_TELEGRAM_BOT_API'
 cg = CoinGeckoAPI()
 
-
-
 bot = telebot.TeleBot(token)
-listt = cg.get_price(ids='bitcoin', vs_currencies='usd')
-print(str(listt))
 
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -17,31 +12,43 @@ def start(message):
     item1 = types.KeyboardButton('BTC/USDT')
     item2 = types.KeyboardButton('ETH/USDT')
     item3 = types.KeyboardButton('ADA/USDT')
-    info = types.KeyboardButton('Info')
+    contacts = types.KeyboardButton('Контакты')
 
-    markup.add(item1, item2, item3, info)
-    bot.send_message(message.chat.id, 'Привет {0.first_name}'.format(message.from_user), reply_markup = markup)
+    markup.add(item1, item2, item3, contacts)
+    bot.send_message(message.chat.id, 'Привет {0.first_name}!\n\nЭтот бот поможет узнать курс криптовалют по отношению к доллару!\n\nНиже выбери необходимую криптовалюту, чтобы узнать курс:'.format(message.from_user), reply_markup = markup)
 
 @bot.message_handler(content_types=['text'])
 def bot_message(message):
     if message.chat.type == 'private':
-        if message.text == 'Info':
-            bot.send_message(message.chat.id, 'Этот бот поможет вам узнать цену самых топовых криптовалют')
+        if message.text == 'Контакты':
+            bot.send_message(message.chat.id, 'Этот бот был создан для информационных целей\n\nСоздателем этого ботя является: @Sunnatilla_Ismoilov')
         elif message.text == 'BTC/USDT':
+            btc = cg.get_price(ids='bitcoin', vs_currencies='usd')
             markup = types.ReplyKeyboardMarkup(resize_keyboard = True)
-            item1 = types.KeyboardButton('Курс криптовалюты Bitcoin к USDT')
-            back = types.KeyboardButton('Back')
-            markup.add(item1, back)
-            bot.send_message(message.chat.id, (f"BTC/USDT: {str(listt.get('usd'))}") , reply_markup=markup)
-        elif message.text == 'Back':
+            back = types.KeyboardButton('Назад')
+            markup.add(back)
+            bot.send_message(message.chat.id, (f'BTC/USDT: {btc}') , reply_markup=markup)
+        elif message.text == 'ETH/USDT':
+            eth = cg.get_price(ids='ethereum', vs_currencies='usd')
+            markup = types.ReplyKeyboardMarkup(resize_keyboard = True)
+            back = types.KeyboardButton('Назад')
+            markup.add(back)
+            bot.send_message(message.chat.id, (f'ETH/USDT: {eth}') , reply_markup=markup)
+        elif message.text == 'ADA/USDT':
+            ada = cg.get_price(ids='cardano', vs_currencies='usd')
+            markup = types.ReplyKeyboardMarkup(resize_keyboard = True)
+            back = types.KeyboardButton('Назад')
+            markup.add(back)
+            bot.send_message(message.chat.id, (f'ADA/USDT: {ada}') , reply_markup=markup)
+        elif message.text == 'Назад':
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
             item1 = types.KeyboardButton('BTC/USDT')
             item2 = types.KeyboardButton('ETH/USDT')
             item3 = types.KeyboardButton('ADA/USDT')
-            info = types.KeyboardButton('Info')
+            contacts = types.KeyboardButton('Контакты')
 
-            markup.add(item1, item2, item3, info)
-            bot.send_message(message.chat.id, 'Back' , reply_markup=markup)
+            markup.add(item1, item2, item3, contacts)
+            bot.send_message(message.chat.id, 'Назад' , reply_markup=markup)
 
 
 
