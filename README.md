@@ -1,3 +1,5 @@
+# Cryptocurrency exchange rates
+
 Simple Telegram bot that interacts with CoinGecko cryptocurrency analytics site API to get cryptocurrency rates in the ratio of USDT stable coin in real time. 
 
 The following cryptocurrency pairs are listed:
